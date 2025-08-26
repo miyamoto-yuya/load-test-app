@@ -1,0 +1,72 @@
+import datetime
+from django_mongoengine import Document, fields
+# import datetime
+# from django_mongoengine import Document, fields
+
+class Note(Document):
+    created_at = fields.DateTimeField(default=datetime.datetime.now)
+    title = fields.StringField(max_length=255)
+    body = fields.StringField()
+# class Note(Document):
+#     created_at = fields.DateTimeField(default=datetime.datetime.now)
+#     title = fields.StringField(max_length=255)
+#     body = fields.StringField()
+
+    def __str__(self):
+        return self.title
+#     def __str__(self):
+#         return self.title
+
+import boto3
+import os
+from uuid import uuid4
+
+# 環境変数から DynamoDB のエンドポイントを取得（デフォルトは DynamoDB Local）
+dynamodb = boto3.resource(
+    'dynamodb',
+    region_name=os.getenv('AWS_REGION', 'ap-northeast-1'),
+    #endpoint_url=os.getenv('DYNAMODB_ENDPOINT_URL', 'http://dynamodb:8001'),
+    #aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID', 'fake'),
+    #aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY', 'fake'),
+)
+
+TABLE_NAME = dynamodb.Table(os.getenv('DYNAMODB_TABLE', 'stress-test-dynamodb'))
+
+# テーブルを作成（初回のみ実行）
+def ensure_table_exists():
+    existing_tables = dynamodb.meta.client.list_tables()["TableNames"]
+    if TABLE_NAME not in existing_tables:
+        print(f"テーブル {TABLE_NAME} が存在しません。作成します...")
+        table = dynamodb.create_table(
+            TableName=TABLE_NAME,
+            KeySchema=[{'AttributeName': 'id', 'KeyType': 'HASH'}],
+            AttributeDefinitions=[{'AttributeName': 'id', 'AttributeType': 'S'}],
+            BillingMode='PAY_PER_REQUEST'
+        )
+        table.wait_until_exists()
+        print(f"テーブル {TABLE_NAME} の作成が完了しました。")
+    else:
+        print(f"テーブル {TABLE_NAME} は既に存在しています。")
+
+# Django 起動時にテーブルを確認
+ensure_table_exists()
+
+class Note:
+    table = dynamodb.Table(TABLE_NAME)
+
+    @staticmethod
+    def create(title, body):
+        note_id = str(uuid4())
+        Note.table.put_item(
+            Item={'id': note_id, 'title': title, 'body': body}
+        )
+        return note_id
+
+    @staticmethod
+    def get_all():
+        response = Note.table.scan()
+        return response.get('Items', [])
+
+    @staticmethod
+    def delete(note_id):
+        Note.table.delete_item(Key={'id': note_id})

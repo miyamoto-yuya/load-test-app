@@ -1,0 +1,8 @@
+Django==4.2
+django-mongoengine
+gunicorn
+pytz
+django-redis
+boto3
+pymongo
+mysqlclient

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新しいメモを作成</title>
+    <link rel="stylesheet" href="{% static 'create_note.css' %}">
+</head>
+<body>
+    <div class="create-note-container">
+        <h1>新しいメモを作成</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">保存</button>
+        </form>
+        <a href="{% url 'note_list' %}">メモ一覧に戻る</a>
+    </div>
+</body>
+</html>

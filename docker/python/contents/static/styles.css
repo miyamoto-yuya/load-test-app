@@ -1,0 +1,133 @@
+/* 全体のリセットとベーススタイル */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    color: #444;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* コンテナスタイル */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ボタンスタイル */
+button, .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover, .btn:hover {
+    background-color: #0056b3;
+}
+
+/* メモリストスタイル */
+.note-list {
+    list-style: none;
+    padding: 0;
+}
+
+.note-list li {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.note-list li:last-child {
+    border-bottom: none;
+}
+
+.note-list h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.note-list p {
+    margin: 0;
+    color: #555;
+}
+
+/* フォームスタイル */
+form {
+    margin: 20px 0;
+}
+
+form input[type="text"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form button {
+    width: 100%;
+}
+
+/* フッタースタイル */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.title {
+    margin: 0;
+    font-size: 24px;
+    color: #444;
+}
+
+.create-btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.create-btn:hover {
+    background-color: #218838;
+}

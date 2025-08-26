@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メモ一覧</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <!-- DB情報は一番上に表示 -->
+    <div>
+        <strong>DB:</strong> {{ db_engine }}<br>
+        <strong>クラスター:</strong> {{ db_cluster }}
+    </div>
+
+    <!-- メモ一覧のタイトルとボタン -->
+    <div class="header">
+        <h1 class="title">メモ一覧</h1>
+        <a href="{% url 'create_note' %}" class="btn create-btn">メモ作成</a>
+    </div>
+
+    <!-- メモリスト -->
+    <ul class="note-list">
+        {% for note in notes %}
+        <li>
+            <h2>{{ note.title }}</h2>
+            <p>{{ note.body }}</p>
+            <a href="{% url 'delete_note' note.id %}" class="btn">削除</a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    <div class="footer">
+    </div>
+</body>
+</html>
+

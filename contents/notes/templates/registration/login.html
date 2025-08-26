@@ -1,0 +1,7 @@
+{% load static %}
+<h2>ログイン</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Django の自動生成フォーム -->
+    <button type="submit">ログイン</button>
+</form>
